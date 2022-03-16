@@ -35,7 +35,11 @@ function value(x1, x2, x3, x4, x5, x6) {
 	return (x1*k + x2*b + x3*sor + x4*sag + x5*t + x6*w + c*1)/(k*1 + b*1 + sor*1 + sag*1 + t*1 + w*1 + c*1) + 1
 }
 function prob(p1, p2) {
-	return [((p1)/(p1 + p2))**(1 + (p1 - p2)*((p1 - p2)*3.2))]
+		if ([((p1)/(p1 + p2))**(1 + (p1 - p2)*((p1 - p2)*3.2))] > 1e-7) {
+		return [((p1)/(p1 + p2))**(1 + (p1 - p2)*((p1 - p2)*3.2))];
+	} else {
+		return 0;
+}
 }
 var k;
 k = document.getElementById("k").value;
