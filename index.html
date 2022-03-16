@@ -3,12 +3,23 @@
 
 <h2>JavaScript Madness</h2>
 
-<p>choose your weights </br>
+<p>
+Welcome!  This is a weighted-probability simulator of this year's March Madness tournament.  The way it works is you input what weights you'd like various metrics to hold below, which spits out a weighted, relative value score between (-1 and 1) for each team.  From there, a formula that was constructed completely based on vibes/what generally looked reasonable when looking at every team's odds of winning against Gonzaga (I am not a math guy sorry), produces a weighted probability of victory in each game.  From there, the simulator runs and produces a full bracket of results.  So, technically, anything can happen, including Georgia St. winning it all!--that's just extremely unlikely.  </br></br>
+Note: I have basically never coded in JavaScript (where virtually all of this code is done), and have done no coding at all since a very basic web design class sophomore year in high school.  I did it in just a couple days, all original code, so please be gentle with your judgments.  It's just for fun! </br></br>
+
+Here's a brief explainer of the weight options: </br>
+	<b> Kenpom, BPI, Sagarain, and Barthag/Torvik</b> are all computer metrics based on complicated algorithms I assume. </br>
+	<b>Strength of Record</b> is ESPN's resume rating based on the likelihood of a team achieving their record. </br>
+	<b>Win %</b> is, simply, a team's winning percentage.  Is it predictive?  Probably not!  But it <i> feels </i> like it is. </br>
+	<b>Pure Chance</b> is what it sounds like.  I would recommend not putting this number higher than 1 or 2 in conjunction with the other values because it would quickly outweigh everything else.  If you put everything else at zero, and put pure chance at 1 (or any other number) the bracket will simulate as if every team has equal odds of winning every game.  Pure coin flip. </br></br>
+	Recommendations: simplify the numbers, don't make them all super big, try to make them smaller where possible.  Ensure that you put a value into every input box (even if that value is zero).  <b> NOTE: YOU WILL LIKELY NEED TO PRESS RUN SEVERAL TIMES BEFORE IT WILL ACTUALLY RUN.  I DO NOT KNOW WHY. </b> </br>
+	Happy Bracketing! </br>
+choose your weights </br>
 	kenpom: <input id="k" type="number"> </br>
 	bpi: <input id="b" type="number"> </br>
 	strength of record: <input id="sor" type="number"> </br>
 	sagarin: <input id="sag" type="number"> </br>
-	Barthag/Torvig: <input id="t" type="number"> </br>
+	Barthag/Torvik: <input id="t" type="number"> </br>
 	Win %: <input id="w" type="number"> </br>
 	Pure Chance: <input id="c" type="number"> </br>
 </p>
@@ -98,7 +109,7 @@ const MidwestEight = {name: "San Diego State", kenpom: .401937, bpi: .285714, so
 const MidwestNine = {name: "Creighton", kenpom: .213075, bpi: .057143, sor: .68, sag: .485974, barthag: .656269, wins: .666667};
 const MidwestFive = {name: "Iowa", kenpom: .619048, bpi: .642857, sor: .83, sag: .768006, barthag: .911111, wins: .742857};
 const MidwestTwelve = {name: "Richmond", kenpom: .066182, bpi: .042857, sor: .3, sag: .403715, barthag: .685005, wins: .833333};
-const MidwestFour = {name: "Providence", kenpom: .229621, bpi: .207143, sor: .87, sag: 543215, barthag: .695005, wins: .833333};
+const MidwestFour = {name: "Providence", kenpom: .229621, bpi: .207143, sor: .87, sag: .543215, barthag: .695005, wins: .833333};
 const MidwestThirteen = {name: "South Dakota State", kenpom: .131154, bpi: .085714, sor: .59, sag: .3999924, barthag: .582875, wins: .882353};
 const MidwestSix = {name: "LSU", kenpom: .439467, bpi: .535714, sor: .74, sag: .682335, barthag: .806723, wins: .666667};
 const MidwestEleven = {name: "Iowa State", kenpom: .232446, bpi: .142857, sor: .7, sag: .465125, barthag: .68318, wins: .625};
@@ -2291,6 +2302,8 @@ document.getElementById("demo").innerHTML = test + "</br>" +
 "<b> PLAY INS </b>" + "</br>" +
 winwplayinn + " beats " + losswplayinn + "</br>" + 
 wineplayinn + " beats " + losseplayinn + "</br>" +
+winsplayinn + " beats " + losssplayinn + "</br>" +
+winmwplayinn + " beats " + lossmwplayinn + "</br>" + "</br>" +
 "<b> ROUND ONE </b>" + "</br>" +
 winw116n + " beats " + lossw116n + "</br>" +
 winw89n + " beats " + lossw89n + "</br>" +
@@ -2308,6 +2321,22 @@ wine611n + " beats " + losse611n + "</br>" +
 wine314n + " beats " + losse314n + "</br>" +
 wine710n + " beats " + losse710n + "</br>" +
 wine215n + " beats " + losse215n + "</br>" + "</br>" +
+wins116n + " beats " + losss116n + "</br>" +
+wins89n + " beats " + losss89n + "</br>" +
+wins512n + " beats " + losss512n + "</br>" +
+wins413n + " beats " + losss413n + "</br>" +
+wins611n + " beats " + losss611n + "</br>" +
+wins314n + " beats " + losss314n + "</br>" +
+wins710n + " beats " + losss710n + "</br>" +
+wins215n + " beats " + losss215n + "</br>" + "</br>" +
+winmw116n + " beats " + lossmw116n + "</br>" +
+winmw89n + " beats " + lossmw89n + "</br>" +
+winmw512n + " beats " + lossmw512n + "</br>" +
+winmw413n + " beats " + lossmw413n + "</br>" +
+winmw611n + " beats " + lossmw611n + "</br>" +
+winmw314n + " beats " + lossmw314n + "</br>" +
+winmw710n + " beats " + lossmw710n + "</br>" +
+winmw215n + " beats " + lossmw215n + "</br>" + "</br>" +
 "<b> ROUND TWO </b>" + "</br>" +
 winw18n + " beats " + lossw18n + "</br>" +
 winw45n + " beats " + lossw45n + "</br>" +
@@ -2317,16 +2346,34 @@ wine18n + " beats " + losse18n + "</br>" +
 wine45n + " beats " + losse45n + "</br>" +
 wine36n + " beats " + losse36n + "</br>" +
 wine27n + " beats " + losse27n + "</br>" + "</br>" +
+wins18n + " beats " + losss18n + "</br>" +
+wins45n + " beats " + losss45n + "</br>" +
+wins36n + " beats " + losss36n + "</br>" +
+wins27n + " beats " + losss27n + "</br>" + "</br>" +
+winmw18n + " beats " + lossmw18n + "</br>" +
+winmw45n + " beats " + lossmw45n + "</br>" +
+winmw36n + " beats " + lossmw36n + "</br>" +
+winmw27n + " beats " + lossmw27n + "</br>" + "</br>" +
 "<b> SWEET SIXTEEN </b>" + "</br>" +
 winw14n + " beats " + lossw14n + "</br>" +
 winw23n + " beats " + lossw23n + "</br>" + "</br>" +
 wine14n + " beats " + losse14n + "</br>" +
 wine23n + " beats " + losse23n + "</br>" + "</br>" +
+wins14n + " beats " + losss14n + "</br>" +
+wins23n + " beats " + losss23n + "</br>" + "</br>" +
+winmw14n + " beats " + lossmw14n + "</br>" +
+winmw23n + " beats " + lossmw23n + "</br>" + "</br>" +
 "<b> ELITE EIGHT </b>" + "</br>" +
 winw12n + " beats " + lossw12n + "</br>" + "</br>" +
 wine12n + " beats " + losse12n + "</br>" + "</br>" +
+wins12n + " beats " + losss12n + "</br>" + "</br>" +
+winmw12n + " beats " + lossmw12n + "</br>" + "</br>" +
 "<b> FINAL FOUR </b>" + "</br>" +
-winleftn + " beats " + lossleftn + "</br>";
+winleftn + " beats " + lossleftn + "</br>" +
+winrightn + " beats " + lossrightn + "</br>" + "</br>" +
+"<b> CHAMPIONSHIP GAME </b>" + "</br>" +
+winchampn + " beats " + losschampn + "</br>" +
+"<b> YOUR 2021 CHAMPION IS </b>" + winchampn + "<b> !!!! </b>";
 }
 </script>
 </body>
