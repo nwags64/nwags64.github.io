@@ -2302,7 +2302,7 @@ if (winleftval < winrightval) {
 }
 
 let test = prob(W2val, W1val);
-document.getElementById("demo").innerHTML = test + "</br>" +
+document.getElementById("demo").innerHTML =
 "<b> PLAY INS </b>" + "</br>" +
 winwplayinn + " beats " + losswplayinn + "</br>" + 
 wineplayinn + " beats " + losseplayinn + "</br>" +
