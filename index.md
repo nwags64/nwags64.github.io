@@ -4,21 +4,21 @@
 <h2>JavaScript Madness</h2>
 
 <p>
-Welcome!  This is a weighted-probability simulator of this year's March Madness tournament.  The way it works is you input what weights you'd like various metrics to hold below, which spits out a weighted, relative value score between (-1 and 1) for each team.  From there, a formula that was constructed completely based on vibes/what generally looked reasonable when looking at every team's odds of winning against Gonzaga (I am not a math guy sorry), produces a weighted probability of victory in each game.  From there, the simulator runs and produces a full bracket of results.  So, technically, anything can happen, including Georgia St. winning it all!--that's just extremely unlikely.</br> </br>
-Note: I have basically never coded in JavaScript (where virtually all of this code is done), and have done no coding at all since a very basic web design class sophomore year in high school.  I did it in just a couple days, all original code, so please be gentle with your judgments.  It's just for fun! </br> </br>
+Welcome!  This is a weighted-probability simulator of this year's March Madness tournament.  The way it works is you input what weights you'd like various metrics to hold below, which spits out a weighted, relative value score between (0 and 1) for each team.  From there, a formula that was constructed completely based on vibes/what generally looked reasonable (I am not a math guy sorry) produces a weighted probability of victory in each game.  From there, the simulator runs and produces a full bracket of results.  So, technically, anything can happen, including Texas Southern winning it all!--that's just extremely unlikely.  </br></br>
+Note: I have basically never coded in JavaScript (where virtually all of this code is done), and have done no coding at all since a very basic web design class sophomore year in high school.  I did it in just a couple days, all original code, so please be gentle with your judgments.  It's just for fun! </br></br>
 
 Here's a brief explainer of the weight options: </br>
-	<b> Kenpom, BPI, Sagarain, and Barthag/Torvik</b> are all computer metrics based on complicated algorithms I assume. </br>
+	<b> Kenpom, BPI, EvanMiya, and Barthag/Torvik</b> are all computer metrics based on complicated algorithms I assume. </br>
 	<b>Strength of Record</b> is ESPN's resume rating based on the likelihood of a team achieving their record. </br>
 	<b>Win %</b> is, simply, a team's winning percentage.  Is it predictive?  Probably not!  But it <i> feels </i> like it is. </br>
 	<b>Pure Chance</b> is what it sounds like.  I would recommend not putting this number higher than 1 or 2 in conjunction with the other values because it would quickly outweigh everything else.  If you put everything else at zero, and put pure chance at 1 (or any other number) the bracket will simulate as if every team has equal odds of winning every game.  Pure coin flip. </br></br>
-	Recommendations: simplify the numbers, don't make them all super big, try to make them smaller where possible.  Ensure that you put a value into every input box (even if that value is zero).  <b> NOTE: YOU WILL LIKELY NEED TO PRESS RUN SEVERAL TIMES BEFORE IT WILL ACTUALLY RUN.  I DO NOT KNOW WHY. </b> </br>
+	Recommendations: simplify the numbers, don't make them all super big, try to make them smaller where possible.  Ensure that you put a value into every input box (even if that value is zero).  <b> NOTE: You may need to press run more than once before it will actually run.  I do not know why.</b> </br>
 	Happy Bracketing! </br>
 choose your weights </br>
 	kenpom: <input id="k" type="number"> </br>
 	bpi: <input id="b" type="number"> </br>
 	strength of record: <input id="sor" type="number"> </br>
-	sagarin: <input id="sag" type="number"> </br>
+	EvanMiya: <input id="sag" type="number"> </br>
 	Barthag/Torvik: <input id="t" type="number"> </br>
 	Win %: <input id="w" type="number"> </br>
 	Pure Chance: <input id="c" type="number"> </br>
@@ -32,11 +32,11 @@ choose your weights </br>
 
 function run() {
 function value(x1, x2, x3, x4, x5, x6) {
-	return (x1*k + x2*b + x3*sor + x4*sag + x5*t + x6*w + c*1)/(k*1 + b*1 + sor*1 + sag*1 + t*1 + w*1 + c*1) + 1
+	return ((x1*k + x2*b + x3*sor + x4*sag + x5*t + x6*w + c*1)/(k*1 + b*1 + sor*1 + sag*1 + t*1 + w*1 + c*1))
 }
 function prob(p1, p2) {
-		if ([((p1)/(p1 + p2))**(1 + (p1 - p2)*((p1 - p2)*3.2))] > 1e-7) {
-		return [((p1)/(p1 + p2))**(1 + (p1 - p2)*((p1 - p2)*3.2))];
+	if ([((p1)/(p1 + p2))**(1 + (p1 - p2)*((p1 - p2)*4.8))] > 1e-6) {
+		return [((p1)/(p1 + p2))**(1 + (p1 - p2)*((p1 - p2)*4.8))];
 	} else {
 		return 0;
 }
@@ -55,74 +55,76 @@ var w;
 w = document.getElementById("w").value;
 var c;
 c = document.getElementById("c").value;
-const WestOne = {name: "Gonzaga", kenpom: 1, bpi: 1, sor: 0.93, sag: 1, barthag: 1, wins: 0.896552};
-const WestSixteen = {name: "Georgia State", kenpom: -0.256255, bpi: -0.378571, sor: -0.38, sag: 0.152009, barthag: 0.202854, wins: 0.642857};
-const WestEight = {name: "Boise State", kenpom: 0.331719, bpi: 0.107143, sor: 0.64, sag: 0.52881, barthag: 0.770234, wins: 0.794118};
-const WestNine = {name: "Memphis", kenpom: 0.324052, bpi: 0.328571, sor: 0.61, sag: 0.599318, barthag: 0.821407, wins: 0.677419};
-const WestFive = {name: "UCONN", kenpom: 0.449556, bpi: 0.492857, sor: 0.78, sag: 0.677407, barthag: 0.809786, wins: 0.71875};
-const WestTwelve = {name: "New Mexico State", kenpom: 0.077078, bpi: -0.25, sor: 0.32, sag: 0.347991, barthag: 0.522936, wins: 0.8125};
-const WestFour = {name: "Arkansas", kenpom: 0.437046, bpi: 0.414286, sor: 0.84, sag: 0.673995, barthag: 0.829969, wins: 0.757576};
-const WestThirteen = {name: "Vermont", kenpom: 0.196933, bpi: 0.228571, sor: 0.29, sag: 0.370735, barthag: 0.628338, wins: 0.848485};
-const WestSix = {name: "Alabama", kenpom: 0.370056, bpi: 0.378571, sor: 0.73, sag: 0.633813, barthag: 0.779409, wins: 0.59375};
-const WestElevena = {name: "Rutgers", kenpom: 0.107748, bpi: 0.021429, sor: 0.46, sag: 0.453753, barthag: 0.578186, wins: 0.580645};
-const WestElevenb = {name: "Notre Dame", kenpom: 0.219532, bpi: 0.164286, sor: 0.62, sag: 0.475739, barthag: 0.713354, wins: 0.6875};
-const WestThree = {name: "Texas Tech", kenpom: 0.663842, bpi: 0.65, sor: 0.88, sag: 0.760425, barthag: 0.933129, wins: 0.735294};
-const WestFourteen = {name: "Montana State", kenpom: -0.176755, bpi: -0.442857, sor: -0.12, sag: 0.141395, barthag: 0.16738, wins: 0.794118};
-const WestSeven = {name: "Michigan State", kenpom: 0.269572, bpi: 0.257143, sor: 0.77, sag: 0.590978, barthag: 0.728848, wins: 0.647059};
-const WestTen = {name: "Davidson", kenpom: 0.266747, bpi: 0.157143, sor: 0.66, sag: 0.464367, barthag: 0.683384, wins: 0.818182};
-const WestTwo = {name: "Duke", kenpom: 0.626312, bpi: 0.678571, sor: 0.89, sag: 0.77862, barthag: 0.920082, wins: 0.823529};
-const WestFifteen = {name: "CS Fullerton", kenpom: -0.245763, bpi: -0.507143, sor: -0.49, sag: 0.101213, barthag: -0.014475, wins: 0.677419};
-const EastOne = {name: "Baylor", kenpom: .731638, bpi: .757143, sor: .96, sag: .835102, barthag: .936188, wins: .8125};
-const EastSixteen = {name: "Norfolk State", kenpom: -.324455, bpi: -.364286, sor: -.19, sag: .021607, barthag: -.027523, wins: .8};
-const EastEight = {name: "North Carolina", kenpom: .317191, bpi: .3, sor: .81, sag: .596285, barthag: .75474, wins: .727273};
-const EastNine = {name: "Marquette", kenpom: .234463, bpi: .121429, sor: .56, sag: .485974, barthag: .672987, wins: .59375};
-const EastFive = {name: "St. Mary's", kenpom: .468927, bpi: .335714, sor: .76, sag: .604246, barthag: .855657, wins: .606061};
-const EastTwelvea = {name: "Indiana", kenpom: .272397, bpi: .257143, sor: .52, sag: .59022, barthag: .806728, wins: .78125};
-const EastTwelveb = {name: "Wyoming", kenpom: .198144, bpi: -.2, sor: .47, sag: .375663, barthag: .609378, wins: .757576};
-const EastFour = {name: "UCLA", kenpom: .672316, bpi: .685714, sor: .85, sag: .777862, barthag: .918451, wins: .78125};
-const EastThirteen = {name: "Akron", kenpom: -.189669, bpi: -.192857, sor: -.12, sag: .169067, barthag: .202854, wins: .727273};
-const EastSix = {name: "Texas", kenpom: .49314, bpi: .492857, sor: .75, sag: .668309, barthag: .868502, wins: .65625};
-const EastEleven = {name: "Virginia Tech", kenpom: .390234, bpi: .442857, sor: .58, sag: .596664, barthag: .820387, wins: .657143};
-const EastThree = {name: "Purdue", kenpom: .569007, bpi: .678571, sor: .91, sag: .795679, barthag: .907238, wins: .766667};
-const EastFourteen = {name: "Yale", kenpom: -.240517, bpi: -.414286, sor: -.3, sag: .168688, barthag: .151886, wins: .6333333};
-const EastSeven = {name: "Murray State", kenpom: .330912, bpi: .278571, sor: .79, sag: .423427, barthag: .71682, wins: .9375};
-const EastTen = {name: "San Francisco", kenpom: .410815, bpi: .271429, sor: .5, sag: .562926, barthag: .820795, wins: .727273};
-const EastTwo = {name: "Kentucky", kenpom: .742534, bpi: .792857, sor: .95, sag: .8116, barthag: .924771, wins: .787879};
-const EastFifteen = {name: "St. Peter's", kenpom: -.157789, bpi: -.228571, sor: -.28, sag: .168309, barthag: .274414, wins: .633333};
-const SouthOne = {name: "Arizona", kenpom: .767554, bpi: .807143, sor: .98, sag: .874526, barthag: .930479, wins: .911765};
-const SouthSixteena = {name: "Bryant", kenpom: -.368846, bpi: -.478571, sor: -.29, sag: -.001137, barthag: .002446, wins: .709677};
-const SouthSixteenb = {name: "Wright State", kenpom: -.365617, bpi: -.442857, sor: -.95, sag: 0.058757, barthag: -.078491, wins: .617647};
-const SouthEight = {name: "Seton Hall", kenpom: .273608, bpi: .242857, sor: .69, sag: .559515, barthag: .686239, wins: .677419};
-const SouthNine = {name: "TCU", kenpom: .271186, bpi: .185714, sor: .72, sag: .506444, barthag: .727829, wins: .684211};
-const SouthFive = {name: "Houston", kenpom: .738902, bpi: .892857, sor: .86, sag: .808567, barthag: .96473, wins: .852941};
-const SouthTwelve = {name: "UAB", kenpom: .235674, bpi: .178571, sor: .38, sag: .484458, barthag: .655657, wins: .794118};
-const SouthFour = {name: "Illinois", kenpom: .460048, bpi: .542857, sor: .82, sag: .728203, barthag: .86055, wins: .709677};
-const SouthThirteen = {name: "Chattanooga", kenpom: .124294, bpi: .078571, sor: .71, sag: .539424, barthag: .704383, wins: .794118};
-const SouthSix = {name: "Colorado State", kenpom: .309524, bpi: -.007143, sor: .71, sag: .539424, barthag: .704383, wins: .833333};
-const SouthEleven = {name: "Michigan", kenpom: .301049, bpi: .285714, sor: .55, sag: .607657, barthag: .790418, wins: .548387};
-const SouthThree = {name: "Tennessee", kenpom: .688055, bpi: .8, sor: .97, sag: .788855, barthag: .931091, wins: .787879};
-const SouthFourteen = {name: "Longwood", kenpom: -.230428, bpi: -.328571, sor: 0, sag: .085671, barthag: .183078, wins: .8125};
-const SouthSeven = {name: "Ohio State", kenpom: .30791, bpi: .335714, sor: .65, sag: .632676, barthag: .770642, wins: .6333333};
-const SouthTen = {name: "Loyola Chicago", kenpom: .383374, bpi: .335714, sor: .52, sag: .556861, barthag: .742304, wins: .78125};
-const SouthTwo = {name: "Villanova", kenpom: .642454, bpi: .757143, sor: .92, sag: .778999, barthag: .912742, wins: .787879};
-const SouthFifteen = {name: "Delaware", kenpom: -.238499, bpi: 0.407143, sor: -.36, sag: .129265, barthag: .219368, wins: .647059};
-const MidwestOne = {name: "Kansas", kenpom: .698144, bpi: .7, sor: .99, sag: .832828, barthag: .94577, wins: .823529};
-const MidwestSixteena = {name: "Texas Southern", kenpom: -.384181, bpi: -.514286, sor: -.84, sag: -.00417, barthag: -.076656, wins: .6};
-const MidwestSixteenb = {name: "Texas A&M - Corpus Christi", kenpom: -.585149, bpi: -0.735714, sor: -.99, sag: -.132676, barthag: -.322528, wins: .676471};
-const MidwestEight = {name: "San Diego State", kenpom: .401937, bpi: .285714, sor: .6, sag: .559136, barthag: .798165, wins: .741935};
-const MidwestNine = {name: "Creighton", kenpom: .213075, bpi: .057143, sor: .68, sag: .485974, barthag: .656269, wins: .666667};
-const MidwestFive = {name: "Iowa", kenpom: .619048, bpi: .642857, sor: .83, sag: .768006, barthag: .911111, wins: .742857};
-const MidwestTwelve = {name: "Richmond", kenpom: .066182, bpi: .042857, sor: .3, sag: .403715, barthag: .685005, wins: .833333};
-const MidwestFour = {name: "Providence", kenpom: .229621, bpi: .207143, sor: .87, sag: .543215, barthag: .695005, wins: .833333};
-const MidwestThirteen = {name: "South Dakota State", kenpom: .131154, bpi: .085714, sor: .59, sag: .3999924, barthag: .582875, wins: .882353};
-const MidwestSix = {name: "LSU", kenpom: .439467, bpi: .535714, sor: .74, sag: .682335, barthag: .806723, wins: .666667};
-const MidwestEleven = {name: "Iowa State", kenpom: .232446, bpi: .142857, sor: .7, sag: .465125, barthag: .68318, wins: .625};
-const MidwestThree = {name: "Wisconsin", kenpom: .298224, bpi: .292857, sor: .9, sag: .595527, barthag: .773293, wins: .774194};
-const MidwestFourteen = {name: "Colgate", kenpom: -.16021, bpi: -.207143, sor: -.53, sag: .182335, barthag: .221203, wins: .676471};
-const MidwestSeven = {name: "USC", kenpom: .252623, bpi: .214286, sor: .8, sag: .576573, barthag: .649541, wins: .757576};
-const MidwestTen = {name: "Miami (Fl)", kenpom: .178773, bpi: .1, sor: .67, sag: .431766, barthag: .661366, wins: .714286};
-const MidwestTwo = {name: "Auburn", kenpom: .656174, bpi: .657143, sor: .94, sag: .764973, barthag: .911315, wins: .84375};
-const MidwestFifteen = {name: "Jacksonville State", kenpom: -.240113, bpi: -.307143, sor: -.4, sag: .142153, barthag: .155148, wins: .677419};
+const WestOne = {name: "UConn", kenpom: 1, bpi: 0.9133, sor: 0.9943, sag: 1, barthag: 0.9905, wins: 0.9842};
+const WestSixteen = {name: "Stetson", kenpom: 0.1499, bpi: 0.2067, sor: 0.1714, sag: 0.161, barthag: 0.2001, wins: 0.4751};
+const WestEight = {name: "FAU", kenpom: 0.6261, bpi: 0.61, sor: 0.7771, sag: 0.6546, barthag: 0.7931, wins: 0.6876};
+const WestNine = {name: "Northwestern", kenpom: 0.61836, bpi: 0.5767, sor: 0.8514, sag: 0.5662, barthag: 0.8624, wins: 0.4928};
+const WestFive = {name: "San Diego St.", kenpom: 0.7071, bpi: 0.6067, sor: 0.8343, sag: 0.6961, barthag: 0.872, wins: 0.5882};
+const WestTwelve = {name: "UAB", kenpom: 0.3929, bpi: 0.3567, sor: 0.5314, sag: 0.3974, barthag: 0.5952, wins: 0.5317};
+const WestFour = {name: "Auburn", kenpom: 0.9225, bpi: 0.8667, sor: 0.9486, sag: 0.9507, barthag: 0.9726, wins: 0.7579};
+const WestThirteen = {name: "Yale", kenpom: 0.4676, bpi: 0.5, sor: 0.5429, sag: 0.5195, barthag: 0.6978, wins: 0.5955};
+const WestSix = {name: "BYU", kenpom: 0.7378, bpi: 0.7033, sor: 0.8857, sag: 0.7221, barthag: 0.9074, wins: 0.5711};
+const WestEleven = {name: "Duquesne", kenpom: 0.4652, bpi: 0.4367, sor: 0.5829, sag: 0.452, barthag: 0.7216, wins: 0.5495};
+const WestThree = {name: "Illinois", kenpom: 0.8075, bpi: 0.7633, sor: 0.96, sag: 0.7922, barthag: 0.9274, wins: 0.7014};
+const WestFourteen = {name: "Morehead St.", kenpom: 0.3739, bpi: 0.4133, sor: 0.3714, sag: 0.3429, barthag: 0.4992, wins: 0.7014};
+const WestSeven = {name: "Washington St.", kenpom: 0.6256, bpi: 0.5633, sor: 0.8114, sag: 0.5922, barthag: 0.8419, wins: 0.6294};
+const WestTen = {name: "Drake", kenpom: 0.5903, bpi: 0.5333, sor: 0.7657, sag: 0.5792, barthag: 0.8067, wins: 0.8145};
+const WestTwo = {name: "Iowa St.", kenpom: 0.8715, bpi: 0.8467, sor: 0.9829, sag: 0.852, barthag: 0.9739, wins: 0.7579};
+const WestFifteen = {name: "South Dakota St.", kenpom: 0.3159, bpi: 0.2733, sor: 0.1143, sag: 0.3481, barthag: 0.4929, wins: 0.4751};
+const EastOne = {name: "North Carolina", kenpom: .823, bpi: .7767, sor: .9771, sag: .8364, barthag: .9381, wins: .7579};
+const EastSixteena = {name: "Wagner", kenpom: 0.0096, bpi: 0.0567, sor: 0, sag: 0.0078, barthag: 0.051, wins: .2233};
+const EastSixteenb = {name: "Howard", kenpom: 0.0525, bpi: 0.08, sor: 0, sag: 0.091, barthag: 0.1174, wins: .2489};
+const EastEight = {name: "Mississippi St.", kenpom: .6668, bpi: .6233, sor: .7886, sag: .6597, barthag: .8698, wins: .4186};
+const EastNine = {name: "Michigan St.", kenpom: .7148, bpi: .6867, sor: .7086, sag: .7351, barthag: .8969, wins: .338};
+const EastFive = {name: "Saint Mary's", kenpom: .7115, bpi: .7167, sor: .7257, sag: .6623, barthag: .9244, wins: .7459};
+const EastTwelve = {name: "Grand Canyon", kenpom: .5715, bpi: .52, sor: .72, sag: .5455, barthag: .7363, wins: .9207};
+const EastFour = {name: "Alabama", kenpom: .7722, bpi: .78, sor: .92, sag: .7714, barthag: .915, wins: .4928};
+const EastThirteen = {name: "Charleston", kenpom: .424, bpi: .4167, sor: .5771, sag: .4416, barthag: .6451, wins: .7579};
+const EastSix = {name: "Clemson", kenpom: .6425, bpi: .6233, sor: .8057, sag: .6, barthag: .854, wins: .4928};
+const EastEleven = {name: "New Mexico", kenpom: .6893, bpi: .5533, sor: .5914, sag: .6623, barthag: .8897, wins: .6593};
+const EastThree = {name: "Baylor", kenpom: .768, bpi: .74, sor: .9543, sag: .761, barthag: .9122, wins: .5711};
+const EastFourteen = {name: "Colgate", kenpom: .2962, bpi: .3733, sor: .3371, sag: .252, barthag: .402, wins: .6448};
+const EastSeven = {name: "Dayton", kenpom: .6509, bpi: .6167, sor: .8629, sag: .5896, barthag: .8407, wins: .7196};
+const EastTen = {name: "Nevada", kenpom: .6394, bpi: .53, sor: .8286, sag: .5896, barthag: .8407, wins: .7196};
+const EastTwo = {name: "Arizona", kenpom: .8691, bpi: .85, sor: .9314, sag: .9013, barthag: .9667, wins: .6876};
+const EastFifteen = {name: "Long Beach St.", kenpom: .2458, bpi: .22, sor: 0.1029, sag: .2494, barthag: .2972, wins: .3846};
+const SouthOne = {name: "Houston", kenpom: 0.9885, bpi: 1, sor: 1, sag: .8987, barthag: 1, wins: .9276};
+const SouthSixteen = {name: "Longwood", kenpom: 0.2683, bpi: 0.2933, sor: 0.04, sag: 0.2857, barthag: 0.3565, wins: .4186};
+const SouthEight = {name: "Nebraska", kenpom: .6717, bpi: .6, sor: .8686, sag: .652, barthag: .8993, wins: .5711};
+const SouthNine = {name: "Texas A&M", kenpom: .623, bpi: .6033, sor: .76, sag: .6156, barthag: .8348, wins: .362};
+const SouthFive = {name: "Wisconsin", kenpom: .7282, bpi: .6867, sor: .8971, sag: .7169, barthag: .9012, wins: .43969842};
+const SouthTwelve = {name: "James Madison", kenpom: .5479, bpi: .55, sor: .8171, sag: .5922, barthag: .7426, wins: .9842};
+const SouthFour = {name: "Duke", kenpom: .8284, bpi: .8033, sor: .9143, sag: .8442, barthag: .934, wins: .6731};
+const SouthThirteen = {name: "Vermont", kenpom: .4093, bpi: .45, sor: .6343, sag: .4338, barthag: .5895, wins: .8145};
+const SouthSix = {name: "Texas Tech", kenpom: .6799, bpi: .6433, sor: .9086, sag: .6546, barthag: .8791, wins: .5711};
+const SouthEleven = {name: "NC State", kenpom: .5516, bpi: .5267, sor: .6971, sag: .5429, barthag: .7684, wins: .406};
+const SouthThree = {name: "Kentucky", kenpom: .7146, bpi: .67, sor: .8914, sag: .774, barthag: .8906, wins: .613};
+const SouthFourteen = {name: "Oakland", kenpom: .3119, bpi: .31, sor: .4114, sag: .2753, barthag: .4953, wins: .5317};
+const SouthSeven = {name: "Florida", kenpom: .4376, bpi: .64, sor: .9029, sag: .6546, barthag: .8926, wins: .5495};
+const SouthTena = {name: "Boise St.", kenpom: .62936, bpi: .5467, sor: .6743, sag: .5636, barthag: .8398, wins: .5529};
+const SouthTenb = {name: "Colorado", kenpom: .6783, bpi: .55, sor: .8, sag: .6442, barthag: .882, wins: .5882};
+const SouthTwo = {name: "Marquette", kenpom: .7783, bpi: .74, sor: .9714, sag: .7818, barthag: .9412, wins: .6448};
+const SouthFifteen = {name: "Western Kentucky", kenpom: .3173, bpi: 0.26, sor: 0.2057, sag: .361, barthag: .506, wins: .5128};
+const MidwestOne = {name: "Purdue", kenpom: .9277, bpi: .89, sor: .9886, sag: .9377, barthag: .9818, wins: .9207};
+const MidwestSixteena = {name: "Grambling St.", kenpom: 0.063, bpi: 0.0167, sor: 0, sag: .0156, barthag: 0.1034, wins: .1923};
+const MidwestSixteenb = {name: "Montana St.", kenpom: 0.1545, bpi: 0.04, sor: 0, sag: .1507, barthag: 0.282, wins: .362};
+const MidwestEight = {name: "Utah St.", kenpom: .5996, bpi: .49, sor: .8743, sag: .5143, barthag: .789, wins: .8042};
+const MidwestNine = {name: "TCU", kenpom: .6507, bpi: .6333, sor: .8571, sag: .6312, barthag: .859, wins: .4545};
+const MidwestFive = {name: "Gonzaga", kenpom: .7506, bpi: .7067, sor: .88, sag: .7818, barthag: .9184, wins: .7332};
+const MidwestTwelve = {name: "McNeese St.", kenpom: .5469, bpi: .5367, sor: .6571, sag: .4909, barthag: .7104, wins: .979};
+const MidwestFour = {name: "Kansas", kenpom: .6961, bpi: .6767, sor: .9371, sag: .7299, barthag: .9129, wins: .5529};
+const MidwestThirteen = {name: "Samford", kenpom: .4751, bpi: .42, sor: .6057, sag: .4182, barthag: .6826, wins: .871};
+const MidwestSix = {name: "South Carolina", kenpom: .5985, bpi: .53, sor: .9429, sag: .5325, barthag: .8242, wins: .7459};
+const MidwestEleven = {name: "Oregon", kenpom: .5603, bpi: .52, sor: .7371, sag: .5247, barthag: .7898, wins: .5317};
+const MidwestThree = {name: "Creighton", kenpom: .7937, bpi: .7833, sor: .9257, sag: .7948, barthag: .9364, wins: .613};
+const MidwestFourteen = {name: "Akron", kenpom: .3615, bpi: .3933, sor: 0.4, sag: .3714, barthag: .5069, wins: .5882};
+const MidwestSeven = {name: "Texas", kenpom: .6767, bpi: .65, sor: .8229, sag: .6831, barthag: .8998, wins: .4327};
+const MidwestTena = {name: "Colorado St.", kenpom: .6345, bpi: .48, sor: .6857, sag: .5792, barthag: .8298, wins: .5882};
+const MidwestTenb = {name: "Virginia", kenpom: .5287, bpi: .53, sor: .84, sag: .5169, barthag: .7892, wins: .5711};
+const MidwestTwo = {name: "Tennessee", kenpom: .8539, bpi: .8267, sor: .9657, sag: .8909, barthag: .948, wins: .6731};
+const MidwestFifteen = {name: "Saint Peters", kenpom: 0.1915, bpi: .18, sor: 0, sag: .1766, barthag: 0.2619, wins: .3726};
+
+
 let W1n = WestOne.name;
 let W1kp = WestOne.kenpom;
 let W1bpi = WestOne.bpi;
@@ -195,22 +197,14 @@ let W6sag = WestSix.sag;
 let W6barthag = WestSix.barthag;
 let W6wins = WestSix.wins;
 let W6val = value(W6kp, W6bpi, W6sor, W6sag, W6barthag, W6wins);
-let W11an = WestElevena.name;
-let W11akp = WestElevena.kenpom;
-let W11abpi = WestElevena.bpi;
-let W11asor = WestElevena.sor;
-let W11asag = WestElevena.sag;
-let W11abarthag = WestElevena.barthag;
-let W11awins = WestElevena.wins;
-let W11aval = value(W11akp, W11abpi, W11asor, W11asag, W11abarthag, W11awins);
-let W11bn = WestElevenb.name;
-let W11bkp = WestElevenb.kenpom;
-let W11bbpi = WestElevenb.bpi;
-let W11bsor = WestElevenb.sor;
-let W11bsag = WestElevenb.sag;
-let W11bbarthag = WestElevenb.barthag;
-let W11bwins = WestElevenb.wins;
-let W11bval = value(W11bkp, W11bbpi, W11bsor, W11bsag, W11bbarthag, W11bwins);
+let W11n = WestEleven.name;
+let W11kp = WestEleven.kenpom;
+let W11bpi = WestEleven.bpi;
+let W11sor = WestEleven.sor;
+let W11sag = WestEleven.sag;
+let W11barthag = WestEleven.barthag;
+let W11wins = WestEleven.wins;
+let W11val = value(W11kp, W11bpi, W11sor, W11sag, W11barthag, W11wins);
 let W3n = WestThree.name;
 let W3kp = WestThree.kenpom;
 let W3bpi = WestThree.bpi;
@@ -268,14 +262,22 @@ let E1sag = EastOne.sag;
 let E1barthag = EastOne.barthag;
 let E1wins = EastOne.wins;
 let E1val = value(E1kp, E1bpi, E1sor, E1sag, E1barthag, E1wins);
-let E16n = EastSixteen.name;
-let E16kp = EastSixteen.kenpom;
-let E16bpi = EastSixteen.bpi;
-let E16sor = EastSixteen.sor;
-let E16sag = EastSixteen.sag;
-let E16barthag = EastSixteen.barthag;
-let E16wins = EastSixteen.wins;
-let E16val = value(E16kp, E16bpi, E16sor, E16sag, E16barthag, E16wins);
+let E16an = EastSixteena.name;
+let E16akp = EastSixteena.kenpom;
+let E16abpi = EastSixteena.bpi;
+let E16asor = EastSixteena.sor;
+let E16asag = EastSixteena.sag;
+let E16abarthag = EastSixteena.barthag;
+let E16awins = EastSixteena.wins;
+let E16aval = value(E16akp, E16abpi, E16asor, E16asag, E16abarthag, E16awins);
+let E16bn = EastSixteenb.name;
+let E16bkp = EastSixteenb.kenpom;
+let E16bbpi = EastSixteenb.bpi;
+let E16bsor = EastSixteenb.sor;
+let E16bsag = EastSixteenb.sag;
+let E16bbarthag = EastSixteenb.barthag;
+let E16bwins = EastSixteenb.wins;
+let E16bval = value(E16bkp, E16bbpi, E16bsor, E16bsag, E16bbarthag, E16bwins);
 let E8n = EastEight.name;
 let E8kp = EastEight.kenpom;
 let E8bpi = EastEight.bpi;
@@ -300,22 +302,14 @@ let E5sag = EastFive.sag;
 let E5barthag = EastFive.barthag;
 let E5wins = EastFive.wins;
 let E5val = value(E5kp, E5bpi, E5sor, E5sag, E5barthag, E5wins);
-let E12an = EastTwelvea.name;
-let E12akp = EastTwelvea.kenpom;
-let E12abpi = EastTwelvea.bpi;
-let E12asor = EastTwelvea.sor;
-let E12asag = EastTwelvea.sag;
-let E12abarthag = EastTwelvea.barthag;
-let E12awins = EastTwelvea.wins;
-let E12aval = value(E12akp, E12abpi, E12asor, E12asag, E12abarthag, E12awins);
-let E12bn = EastTwelveb.name;
-let E12bkp = EastTwelveb.kenpom;
-let E12bbpi = EastTwelveb.bpi;
-let E12bsor = EastTwelveb.sor;
-let E12bsag = EastTwelveb.sag;
-let E12bbarthag = EastTwelveb.barthag;
-let E12bwins = EastTwelveb.wins;
-let E12bval = value(E12bkp, E12bbpi, E12bsor, E12bsag, E12bbarthag, E12bwins);
+let E12n = EastTwelve.name;
+let E12kp = EastTwelve.kenpom;
+let E12bpi = EastTwelve.bpi;
+let E12sor = EastTwelve.sor;
+let E12sag = EastTwelve.sag;
+let E12barthag = EastTwelve.barthag;
+let E12wins = EastTwelve.wins;
+let E12val = value(E12kp, E12bpi, E12sor, E12sag, E12barthag, E12wins);
 let E4n = EastFour.name;
 let E4kp = EastFour.kenpom;
 let E4bpi = EastFour.bpi;
@@ -396,6 +390,7 @@ let E15sag = EastFifteen.sag;
 let E15barthag = EastFifteen.barthag;
 let E15wins = EastFifteen.wins;
 let E15val = value(E15kp, E15bpi, E15sor, E15sag, E15barthag, E15wins);
+
 let S1n = SouthOne.name;
 let S1kp = SouthOne.kenpom;
 let S1bpi = SouthOne.bpi;
@@ -404,22 +399,14 @@ let S1sag = SouthOne.sag;
 let S1barthag = SouthOne.barthag;
 let S1wins = SouthOne.wins;
 let S1val = value(S1kp, S1bpi, S1sor, S1sag, S1barthag, S1wins);
-let S16an = SouthSixteena.name;
-let S16akp = SouthSixteena.kenpom;
-let S16abpi = SouthSixteena.bpi;
-let S16asor = SouthSixteena.sor;
-let S16asag = SouthSixteena.sag;
-let S16abarthag = SouthSixteena.barthag;
-let S16awins = SouthSixteena.wins;
-let S16aval = value(S16akp, S16abpi, S16asor, S16asag, S16abarthag, S16awins);
-let S16bn = SouthSixteenb.name;
-let S16bkp = SouthSixteenb.kenpom;
-let S16bbpi = SouthSixteenb.bpi;
-let S16bsor = SouthSixteenb.sor;
-let S16bsag = SouthSixteenb.sag;
-let S16bbarthag = SouthSixteenb.barthag;
-let S16bwins = SouthSixteenb.wins;
-let S16bval = value(S16bkp, S16bbpi, S16bsor, S16bsag, S16bbarthag, S16bwins);
+let S16n = SouthSixteen.name;
+let S16kp = SouthSixteen.kenpom;
+let S16bpi = SouthSixteen.bpi;
+let S16sor = SouthSixteen.sor;
+let S16sag = SouthSixteen.sag;
+let S16barthag = SouthSixteen.barthag;
+let S16wins = SouthSixteen.wins;
+let S16val = value(S16kp, S16bpi, S16sor, S16sag, S16barthag, S16wins);
 let S8n = SouthEight.name;
 let S8kp = SouthEight.kenpom;
 let S8bpi = SouthEight.bpi;
@@ -508,14 +495,22 @@ let S7sag = SouthSeven.sag;
 let S7barthag = SouthSeven.barthag;
 let S7wins = SouthSeven.wins;
 let S7val = value(S7kp, S7bpi, S7sor, S7sag, S7barthag, S7wins);
-let S10n = SouthTen.name;
-let S10kp = SouthTen.kenpom;
-let S10bpi = SouthTen.bpi;
-let S10sor = SouthTen.sor;
-let S10sag = SouthTen.sag;
-let S10barthag = SouthTen.barthag;
-let S10wins = SouthTen.wins;
-let S10val = value(S10kp, S10bpi, S10sor, S10sag, S10barthag, S10wins);
+let S10an = SouthTena.name;
+let S10akp = SouthTena.kenpom;
+let S10abpi = SouthTena.bpi;
+let S10asor = SouthTena.sor;
+let S10asag = SouthTena.sag;
+let S10abarthag = SouthTena.barthag;
+let S10awins = SouthTena.wins;
+let S10aval = value(S10akp, S10abpi, S10asor, S10asag, S10abarthag, S10awins);
+let S10bn = SouthTenb.name;
+let S10bkp = SouthTenb.kenpom;
+let S10bbpi = SouthTenb.bpi;
+let S10bsor = SouthTenb.sor;
+let S10bsag = SouthTenb.sag;
+let S10bbarthag = SouthTenb.barthag;
+let S10bwins = SouthTenb.wins;
+let S10bval = value(S10bkp, S10bbpi, S10bsor, S10bsag, S10bbarthag, S10bwins);
 let S2n = SouthTwo.name;
 let S2kp = SouthTwo.kenpom;
 let S2bpi = SouthTwo.bpi;
@@ -532,6 +527,7 @@ let S15sag = SouthFifteen.sag;
 let S15barthag = SouthFifteen.barthag;
 let S15wins = SouthFifteen.wins;
 let S15val = value(S15kp, S15bpi, S15sor, S15sag, S15barthag, S15wins);
+
 let MW1n = MidwestOne.name;
 let MW1kp = MidwestOne.kenpom;
 let MW1bpi = MidwestOne.bpi;
@@ -644,14 +640,22 @@ let MW7sag = MidwestSeven.sag;
 let MW7barthag = MidwestSeven.barthag;
 let MW7wins = MidwestSeven.wins;
 let MW7val = value(MW7kp, MW7bpi, MW7sor, MW7sag, MW7barthag, MW7wins);
-let MW10n = MidwestTen.name;
-let MW10kp = MidwestTen.kenpom;
-let MW10bpi = MidwestTen.bpi;
-let MW10sor = MidwestTen.sor;
-let MW10sag = MidwestTen.sag;
-let MW10barthag = MidwestTen.barthag;
-let MW10wins = MidwestTen.wins;
-let MW10val = value(MW10kp, MW10bpi, MW10sor, MW10sag, MW10barthag, MW10wins);
+let MW10an = MidwestTena.name;
+let MW10akp = MidwestTena.kenpom;
+let MW10abpi = MidwestTena.bpi;
+let MW10asor = MidwestTena.sor;
+let MW10asag = MidwestTena.sag;
+let MW10abarthag = MidwestTena.barthag;
+let MW10awins = MidwestTena.wins;
+let MW10aval = value(MW10akp, MW10abpi, MW10asor, MW10asag, MW10abarthag, MW10awins);
+let MW10bn = MidwestTenb.name;
+let MW10bkp = MidwestTenb.kenpom;
+let MW10bbpi = MidwestTenb.bpi;
+let MW10bsor = MidwestTenb.sor;
+let MW10bsag = MidwestTenb.sag;
+let MW10bbarthag = MidwestTenb.barthag;
+let MW10bwins = MidwestTenb.wins;
+let MW10bval = value(MW10bkp, MW10bbpi, MW10bsor, MW10bsag, MW10bbarthag, MW10bwins);
 let MW2n = MidwestTwo.name;
 let MW2kp = MidwestTwo.kenpom;
 let MW2bpi = MidwestTwo.bpi;
@@ -669,30 +673,6 @@ let MW15barthag = MidwestFifteen.barthag;
 let MW15wins = MidwestFifteen.wins;
 let MW15val = value(MW15kp, MW15bpi, MW15sor, MW15sag, MW15barthag, MW15wins);
 
-let rn0 = [Math.random()];
-if (W11aval < W11bval) {
-	var r0 = prob(W11aval, W11bval)
-	if (r0 > rn0) {
-	var winwplayinn = W11an;
-	var winwplayinval = W11aval;
-	var losswplayinn = W11bn;
-} else {
-	var winwplayinn = W11bn;
-	var winwplayinval = W11bval;
-	var losswplayinn = W11an;
-}
-} else {
-	var r0 = prob(W11bval, W11aval)
-	if (rn0 > r0) {
-	var winwplayinn = W11an;
-	var winwplayinval = W11aval;
-	var losswplayinn = W11bn;
-} else {
-	var winwplayinn = W11bn;
-	var winwplayinval = W11bval;
-	var losswplayinn = W11an;
-}
-}
 
 let rn1 = [Math.random()];
 if (W1val < W16val) {
@@ -791,26 +771,26 @@ if (W4val < W13val) {
 }
 }
 let rn5 = [Math.random()];
-if (W6val < winwplayinval) {
-	var r5 = prob(W6val, winwplayinval)
+if (W6val < W11val) {
+	var r5 = prob(W6val, W11val)
 	if (r5 > rn5) {
 	var winw611n = W6n;
 	var winw611val = W6val;
-	var lossw611n = winwplayinn;
+	var lossw611n = W11n;
 } else {
-	var winw611n = winwplayinn;
-	var winw611val = winwplayinval;
+	var winw611n = W11n;
+	var winw611val = W11val;
 	var lossw611n = W6n;
 }
 } else {
-	var r5 = prob(winwplayinval, W6val)
+	var r5 = prob(W11val, W6val)
 	if (rn5 > r5) {
 	var winw611n = W6n;
 	var winw611val = W6val;
-	var lossw611n = winwplayinn;
+	var lossw611n = W11n;
 } else {
-	var winw611n = winwplayinn;
-	var winw611val = winwplayinval;
+	var winw611n = W11n;
+	var winw611val = W11val;
 	var lossw611n = W6n;
 }
 }
@@ -886,7 +866,6 @@ if (W2val < W15val) {
 	var lossw215n = W2n;
 }
 }
-
 let rn9 = [Math.random()];
 if (winw116val < winw89val) {
 	var r9 = prob(winw116val, winw89val)
@@ -1057,53 +1036,52 @@ if (winw14val < winw23val) {
 }
 }
 
-
 let rn0a = [Math.random()];
-if (E12aval < E12bval) {
-	var r0a = prob(E12aval, E12bval)
+if (E16aval < E16bval) {
+	var r0a = prob(E16aval, E16bval)
 	if (r0a > rn0a) {
-	var wineplayinn = E12an;
-	var wineplayinval = E12aval;
-	var losseplayinn = E12bn;
+	var wineplayinn = E16an;
+	var wineplayinval = E16aval;
+	var losseplayinn = E16bn;
 } else {
-	var wineplayinn = E12bn;
-	var wineplayinval = E12bval;
-	var losseplayinn = E12an;
+	var wineplayinn = E16bn;
+	var wineplayinval = E16bval;
+	var losseplayinn = E16an;
 }
 } else {
-	var r0a = prob(E12bval, E12aval)
+	var r0a = prob(E16bval, E16aval)
 	if (rn0a > r0a) {
-	var wineplayinn = E12an;
-	var wineplayinval = E12aval;
-	var losseplayinn = E12bn;
+	var wineplayinn = E16an;
+	var wineplayinval = E16aval;
+	var losseplayinn = E16bn;
 } else {
-	var wineplayinn = E12bn;
-	var wineplayinval = E12bval;
-	var losseplayinn = E12an;
+	var wineplayinn = E16bn;
+	var wineplayinval = E16bval;
+	var losseplayinn = E16an;
 }
 }
 
 let rn16 = [Math.random()];
-if (E1val < E16val) {
-	var r16 = prob(E1val, E16val)
+if (E1val < wineplayinval) {
+	var r16 = prob(E1val, wineplayinval)
 	if (r16 > rn16) {
 	var wine116n = E1n;
 	var wine116val = E1val;
-	var losse116n = E16n;
+	var losse116n = wineplayinn;
 } else {
-	var wine116n = E16n;
-	var wine116val = E16val;
+	var wine116n = wineplayinn;
+	var wine116val = wineplayinval;
 	var losse116n = E1n;
 }
 } else {
-	var r16 = prob(E16val, E1val)
+	var r16 = prob(wineplayinval, E1val)
 	if (rn16 > r16) {
 	var wine116n = E1n;
 	var wine116val = E1val;
-	var losse116n = E16n;
+	var losse116n = wineplayinn;
 } else {
-	var wine116n = E16n;
-	var wine116val = E16val;
+	var wine116n = wineplayinn;
+	var wine116val = wineplayinval;
 	var losse116n = E1n;
 }
 }
@@ -1132,26 +1110,26 @@ if (E8val < E9val) {
 }
 }
 let rn18 = [Math.random()];
-if (E5val < wineplayinval) {
-	var r18 = prob(E5val, wineplayinval)
+if (E5val < E12val) {
+	var r18 = prob(E5val, E12val)
 	if (r18 > rn18) {
 	var wine512n = E5n;
 	var wine512val = E5val;
-	var losse512n = wineplayinn;
+	var losse512n = E12n;
 } else {
-	var wine512n = wineplayinn;
-	var wine512val = wineplayinval;
+	var wine512n = E12n;
+	var wine512val = E12val;
 	var losse512n = E5n;
 }
 } else {
-	var r18 = prob(wineplayinval, E5val)
+	var r18 = prob(E12val, E5val)
 	if (rn18 > r18) {
 	var wine512n = E5n;
 	var wine512val = E5val;
-	var losse512n = wineplayinn;
+	var losse512n = E12n;
 } else {
-	var wine512n = wineplayinn;
-	var wine512val = wineplayinval;
+	var wine512n = E12n;
+	var wine512val = E12val;
 	var losse512n = E5n;
 }
 }
@@ -1445,77 +1423,51 @@ if (wine14val < wine23val) {
 	var losse12n = wine14n;
 }
 }
-let rn31 = [Math.random()];
-if (winw12val < wine12val) {
-	var r31 = prob(winw12val, wine12val)
-	if (r31 > rn31) {
-	var winleftn = winw12n;
-	var winleftval = winw12val;
-	var lossleftn = wine12n;
-} else {
-	var winleftn = wine12n;
-	var winleftval = wine12val;
-	var lossleftn = winw12n;
-}
-} else {
-	var r31 = prob(wine12val, winw12val)
-	if (rn31 > r31) {
-	var winleftn = wine12n;
-	var winleftval = wine12val;
-	var lossleftn = winw12n;
-} else {
-	var winleftn = winw12n;
-	var winleftval = winw12val;
-	var lossleftn = wine12n;
-}
-}
 
 let rn0b = [Math.random()];
-if (S16aval < S16bval) {
-	var r0b = prob(S16aval, S16bval)
+if (S10aval < S10bval) {
+	var r0b = prob(S10aval, S10bval)
 	if (r0b > rn0b) {
-	var winsplayinn = S16an;
-	var winsplayinval = S16aval;
-	var losssplayinn = S16bn;
+	var winsplayinn = S10an;
+	var winsplayinval = S10aval;
+	var losssplayinn = S10bn;
 } else {
-	var winsplayinn = S16bn;
-	var winsplayinval = S16bval;
-	var losssplayinn = S16an;
+	var winsplayinn = S10bn;
+	var winsplayinval = S10bval;
+	var losssplayinn = S10an;
 }
 } else {
-	var r0b = prob(S16bval, S16aval)
+	var r0b = prob(S10bval, S10aval)
 	if (rn0b > r0b) {
-	var winsplayinn = S16an;
-	var winsplayinval = S16aval;
-	var losssplayinn = S16bn;
+	var winsplayinn = S10an;
+	var winsplayinval = S10aval;
+	var losssplayinn = S10bn;
 } else {
-	var winsplayinn = S16bn;
-	var winsplayinval = S16bval;
-	var losssplayinn = S16an;
+	var winsplayinn = S10bn;
+	var winsplayinval = S10bval;
+	var losssplayinn = S10an;
 }
 }
-
 let rn32 = [Math.random()];
-if (S1val < winsplayinval) {
-	var r32 = prob(S1val, winsplayinval)
+if (S1val < S16val) {
 	if (r32 > rn32) {
 	var wins116n = S1n;
 	var wins116val = S1val;
-	var losss116n = winsplayinn;
+	var losss116n = S16n;
 } else {
-	var wins116n = winsplayinn;
-	var wins116val = winsplayinval;
+	var wins116n = S16n;
+	var wins116val = S16val;
 	var losss116n = S1n;
 }
 } else {
-	var r32 = prob(winsplayinval, S1val)
+	var r32 = prob(S16val, S1val)
 	if (rn32 > r32) {
 	var wins116n = S1n;
 	var wins116val = S1val;
-	var losss116n = winsplayinn;
+	var losss116n = S16n;
 } else {
-	var wins116n = winsplayinn;
-	var wins116val = winsplayinval;
+	var wins116n = S16n;
+	var wins116val = S16val;
 	var losss116n = S1n;
 }
 }
@@ -1610,7 +1562,7 @@ if (S6val < S11val) {
 	var wins611val = S6val;
 	var losss611n = S11n;
 } else {
-	var wins611n = Slln;
+	var wins611n = S11n;
 	var wins611val = S11val;
 	var losss611n = S6n;
 }
@@ -1640,26 +1592,26 @@ if (S3val < S14val) {
 }
 }
 let rn38 = [Math.random()];
-if (S7val < S10val) {
-	var r38 = prob(S7val, S10val)
+if (S7val < winsplayinval) {
+	var r38 = prob(S7val, winsplayinval)
 	if (r38 > rn38) {
 	var wins710n = S7n;
 	var wins710val = S7val;
-	var losss710n = S10n;
+	var losss710n = winsplayinn;
 } else {
-	var wins710n = S10n;
-	var wins710val = S10val;
+	var wins710n = winsplayinn;
+	var wins710val = winsplayinval;
 	var losss710n = S7n;
 }
 } else {
-	var r38 = prob(S10val, S7val)
+	var r38 = prob(winsplayinval, S7val)
 	if (rn38 > r38) {
 	var wins710n = S7n;
 	var wins710val = S7val;
-	var losss710n = S10n;
+	var losss710n = winsplayinn;
 } else {
-	var wins710n = S10n;
-	var wins710val = S10val;
+	var wins710n = winsplayinn;
+	var wins710val = winsplayinval;
 	var losss710n = S7n;
 }
 }
@@ -1858,7 +1810,6 @@ if (wins14val < wins23val) {
 }
 }
 
-
 let rn0c = [Math.random()];
 if (MW16aval < MW16bval) {
 	var r0c = prob(MW16aval, MW16bval)
@@ -1881,6 +1832,30 @@ if (MW16aval < MW16bval) {
 	var winmwplayinn = MW16bn;
 	var winmwplayinval = MW16bval;
 	var lossmwplayinn = MW16an;
+}
+}
+let rn0d = [Math.random()];
+if (MW10aval < MW10bval) {
+	var r0d = prob(MW10aval, MW10bval)
+	if (r0d > rn0d) {
+	var winmwplayin2n = MW10an;
+	var winmwplayin2val = MW10aval;
+	var lossmwplayin2n = MW10bn;
+} else {
+	var winmwplayin2n = MW10bn;
+	var winmwplayin2val = MW10bval;
+	var lossmwplayin2n = MW10an;
+}
+} else {
+	var r0d = prob(MW10bval, MW10aval)
+	if (rn0d > r0d) {
+	var winmwplayin2n = MW10an;
+	var winmwplayin2val = MW10aval;
+	var lossmwplayin2n = MW10bn;
+} else {
+	var winmwplayin2n = MW10bn;
+	var winmwplayin2val = MW10bval;
+	var lossmwplayin2n = MW10an;
 }
 }
 
@@ -1981,26 +1956,26 @@ if (MW4val < MW13val) {
 }
 }
 let rn51 = [Math.random()];
-if (MW6val < MW11val) {
-	var r51 = prob(MW6val, MW11val)
+if (MW6val < winmwplayinval) {
+	var r51 = prob(MW6val, winmwplayinval)
 	if (r51 > rn51) {
 	var winmw611n = MW6n;
 	var winmw611val = MW6val;
-	var lossmw611n = MW11n;
+	var lossmw611n = winmwplayinn;
 } else {
-	var winmw611n = MW11n;
-	var winmw611val = MW11val;
+	var winmw611n = winmwplayinn;
+	var winmw611val = winmwplayinval;
 	var lossmw611n = MW6n;
 }
 } else {
-	var r51 = prob(MW11val, MW6val)
+	var r51 = prob(winmwplayinval, MW6val)
 	if (rn51 > r51) {
 	var winmw611n = MW6n;
 	var winmw611val = MW6val;
-	var lossmw611n = MW11n;
+	var lossmw611n = winmwplayinn;
 } else {
-	var winmw611n = MWlln;
-	var winmw611val = MW11val;
+	var winmw611n = winmwplayinn;
+	var winmw611val = winmwplayinval;
 	var lossmw611n = MW6n;
 }
 }
@@ -2029,26 +2004,26 @@ if (MW3val < MW14val) {
 }
 }
 let rn53 = [Math.random()];
-if (MW7val < MW10val) {
-	var r53 = prob(MW7val, MW10val)
+if (MW7val < winmwplayin2val) {
+	var r53 = prob(MW7val, winmwplayin2val)
 	if (r53 > rn53) {
 	var winmw710n = MW7n;
 	var winmw710val = MW7val;
-	var lossmw710n = MW10n;
+	var lossmw710n = winmwplayin2n;
 } else {
-	var winmw710n = MW10n;
-	var winmw710val = MW10val;
+	var winmw710n = winmwplayin2n;
+	var winmw710val = winmwplayin2val;
 	var lossmw710n = MW7n;
 }
 } else {
-	var r53 = prob(MW10val, MW7val)
+	var r53 = prob(winmwplayin2val, MW7val)
 	if (rn53 > r53) {
 	var winmw710n = MW7n;
 	var winmw710val = MW7val;
-	var lossmw710n = MW10n;
+	var lossmw710n = winmwplayin2n;
 } else {
-	var winmw710n = MW10n;
-	var winmw710val = MW10val;
+	var winmw710n = winmwplayin2n;
+	var winmw710val = winmwplayin2val;
 	var lossmw710n = MW7n;
 }
 }
@@ -2173,7 +2148,6 @@ if (winmw710val < winmw215val) {
 	var lossmw27n = winmw710n;
 }
 }
-
 let rn59 = [Math.random()];
 if (winmw18val < winmw45val) {
 	var r59 = prob(winmw18val, winmw45val)
@@ -2248,6 +2222,30 @@ if (winmw14val < winmw23val) {
 }
 
 
+let rn31 = [Math.random()];
+if (winw12val < wine12val) {
+	var r31 = prob(winw12val, wine12val)
+	if (r31 > rn31) {
+	var winleftn = winw12n;
+	var winleftval = winw12val;
+	var lossleftn = wine12n;
+} else {
+	var winleftn = wine12n;
+	var winleftval = wine12val;
+	var lossleftn = winw12n;
+}
+} else {
+	var r31 = prob(wine12val, winw12val)
+	if (rn31 > r31) {
+	var winleftn = wine12n;
+	var winleftval = wine12val;
+	var lossleftn = winw12n;
+} else {
+	var winleftn = winw12n;
+	var winleftval = winw12val;
+	var lossleftn = wine12n;
+}
+}
 
 let rn62 = [Math.random()];
 if (wins12val < winmw12val) {
@@ -2273,9 +2271,6 @@ if (wins12val < winmw12val) {
 	var lossrightn = winmw12n;
 }
 }
-
-
-
 let rn63 = [Math.random()];
 if (winleftval < winrightval) {
 	var r63 = prob(winleftval, winrightval)
@@ -2301,13 +2296,13 @@ if (winleftval < winrightval) {
 }
 }
 
-let test = prob(W2val, W1val);
-document.getElementById("demo").innerHTML =
-"<b> PLAY INS </b>" + "</br>" +
-winwplayinn + " beats " + losswplayinn + "</br>" + 
+
+document.getElementById("demo").innerHTML = 
+"<b> PLAY-INS </b>" + "</br>" +
 wineplayinn + " beats " + losseplayinn + "</br>" +
-winsplayinn + " beats " + lossmwplayinn + "</br>" + 
-winmwplayinn + " beats " + losswplayinn + "</br>" + "</br>"
+winsplayinn + " beats " + losssplayinn + "</br>" +
+winmwplayinn + " beats " + lossmwplayinn + "</br>" + 
+winmwplayin2n + " beats " + lossmwplayin2n + "</br>" +
 "<b> ROUND ONE </b>" + "</br>" +
 winw116n + " beats " + lossw116n + "</br>" +
 winw89n + " beats " + lossw89n + "</br>" +
@@ -2316,7 +2311,7 @@ winw413n + " beats " + lossw413n + "</br>" +
 winw611n + " beats " + lossw611n + "</br>" +
 winw314n + " beats " + lossw314n + "</br>" +
 winw710n + " beats " + lossw710n + "</br>" +
-winw215n + " beats " + lossw215n + "</br>" + "</br>" +
+winw215n + " beats " + lossw215n + "</br>" + "</br>"+
 wine116n + " beats " + losse116n + "</br>" +
 wine89n + " beats " + losse89n + "</br>" +
 wine512n + " beats " + losse512n + "</br>" +
